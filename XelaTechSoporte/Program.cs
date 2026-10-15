@@ -1,9 +1,13 @@
-﻿namespace XelaTechSoporte;
+﻿using System;
+
+namespace XelaTechSoporte;
+
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        Console.WriteLine("XelaTech Soporte: proyecto listo");
-        
+        Console.OutputEncoding = System.Text.Encoding.UTF8;   // Para que se vean tildes y caracteres especiales
+        Menu menu = new Menu();
+        menu.Iniciar();
     }
 }
