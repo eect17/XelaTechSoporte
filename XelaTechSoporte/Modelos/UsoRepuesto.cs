@@ -43,4 +43,4 @@ class UsoRepuesto
                           " | Precio Venta: Q" + repuesto.PrecioVenta +
                           " | Subtotal: Q" + CalcularSubtotal());
     }
-}
+}   
