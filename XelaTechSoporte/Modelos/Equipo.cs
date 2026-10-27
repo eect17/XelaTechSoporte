@@ -9,7 +9,7 @@ class Equipo
     private string marca;
     private string modelo;
     private Cliente propietario;
-    private int tipoEquipo;          
+    private int tipoEquipo;
     private string estadoFisico;
     private string accesorios;
 
@@ -101,6 +101,16 @@ class Equipo
     {
         get { return accesorios; }
         set { accesorios = value != null ? value.Trim() : ""; }
+    }
+
+    public virtual double CalcularCostoRevision()
+    {
+        return 100.0;
+    }
+
+    public virtual int ObtenerTiempoEstimado()
+    {
+        return 2;
     }
 
     public virtual void MostrarInformacion()

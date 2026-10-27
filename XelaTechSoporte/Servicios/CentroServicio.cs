@@ -15,6 +15,8 @@ class CentroServicio
     private Queue<Solicitud> colaEscritorio;
     private Queue<Solicitud> colaImpresoras;
 
+    private int[,] matrizCargaSemanal = new int[10, 5];
+
     public CentroServicio()
     {
         clientes = new List<Cliente>();
@@ -38,6 +40,16 @@ class CentroServicio
     public Queue<Solicitud> ColaEscritorio { get { return colaEscritorio; } }
     public Queue<Solicitud> ColaImpresoras { get { return colaImpresoras; } }
 
+    public int[,] MatrizCargaSemanal { get { return matrizCargaSemanal; } }
+
+    public void IncrementarCargaTecnico(int indiceTecnico, int diaSemana)
+    {
+        if (indiceTecnico >= 0 && indiceTecnico < 10 && diaSemana >= 0 && diaSemana < 5)
+        {
+            matrizCargaSemanal[indiceTecnico, diaSemana]++;
+        }
+    }
+
     public Cliente BuscarClientePorCodigo(string codigo)
     {
         if (string.IsNullOrWhiteSpace(codigo)) return null;
@@ -58,12 +70,10 @@ class CentroServicio
 
         if (BuscarClientePorCodigo(nuevoCliente.Codigo) != null)
         {
-            Console.WriteLine("ERROR: Ya existe un cliente registrado con ese código.");
             return false;
         }
 
         clientes.Add(nuevoCliente);
-        Console.WriteLine("¡Cliente registrado exitosamente!");
         return true;
     }
 
@@ -87,17 +97,12 @@ class CentroServicio
 
         if (BuscarTecnicoPorCodigo(nuevoTecnico.Codigo) != null)
         {
-            Console.WriteLine("ERROR: Ya existe un técnico con ese código.");
             return false;
         }
 
         tecnicos.Add(nuevoTecnico);
-        Console.WriteLine("¡Técnico registrado exitosamente!");
         return true;
     }
-    // ==========================================
-    // MÉTODOS DE BÚSQUEDA Y REGISTRO: REPUESTOS
-    // ==========================================
 
     public Repuesto BuscarRepuestoPorCodigo(string codigo)
     {
@@ -119,15 +124,12 @@ class CentroServicio
 
         if (BuscarRepuestoPorCodigo(nuevoRepuesto.Codigo) != null)
         {
-            Console.WriteLine("ERROR: Ya existe un repuesto con ese código.");
             return false;
         }
 
         repuestos.Add(nuevoRepuesto);
-        Console.WriteLine("¡Repuesto registrado exitosamente!");
         return true;
     }
-
 
     public Equipo BuscarEquipoPorCodigo(string codigoInterno)
     {
@@ -149,12 +151,10 @@ class CentroServicio
 
         if (BuscarEquipoPorCodigo(nuevoEquipo.CodigoInterno) != null)
         {
-            Console.WriteLine("ERROR: Ya existe un equipo con ese código interno.");
             return false;
         }
 
         equipos.Add(nuevoEquipo);
-        Console.WriteLine("¡Equipo registrado exitosamente!");
         return true;
     }
 
@@ -178,7 +178,6 @@ class CentroServicio
 
         if (BuscarSolicitudPorNumero(nuevaSolicitud.NumeroSolicitud) != null)
         {
-            Console.WriteLine("ERROR: Ya existe una solicitud con ese número.");
             return false;
         }
 
@@ -192,20 +191,16 @@ class CentroServicio
         if (nuevaSolicitud.Equipo is ComputadoraPortatil)
         {
             colaPortatiles.Enqueue(nuevaSolicitud);
-            Console.WriteLine("Solicitud encolada en la fila de Portátiles.");
         }
         else if (nuevaSolicitud.Equipo is ComputadoraEscritorio)
         {
             colaEscritorio.Enqueue(nuevaSolicitud);
-            Console.WriteLine("Solicitud encolada en la fila de Escritorio.");
         }
         else if (nuevaSolicitud.Equipo is Impresora)
         {
             colaImpresoras.Enqueue(nuevaSolicitud);
-            Console.WriteLine("Solicitud encolada en la fila de Impresoras.");
         }
 
-        Console.WriteLine("¡Solicitud registrada exitosamente!");
         return true;
     }
 }

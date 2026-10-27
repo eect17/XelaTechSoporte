@@ -22,4 +22,27 @@ class Ordenador
             }
         }
     }
+
+    public void OrdenarTecnicosPorServicios(List<Tecnico> tecnicos)
+    {
+        if (tecnicos == null || tecnicos.Count <= 1) return;
+
+        for (int i = 0; i < tecnicos.Count - 1; i++)
+        {
+            int maxIdx = i;
+            for (int j = i + 1; j < tecnicos.Count; j++)
+            {
+                if (tecnicos[j].ServiciosFinalizados > tecnicos[maxIdx].ServiciosFinalizados)
+                {
+                    maxIdx = j;
+                }
+            }
+            if (maxIdx != i)
+            {
+                Tecnico temp = tecnicos[i];
+                tecnicos[i] = tecnicos[maxIdx];
+                tecnicos[maxIdx] = temp;
+            }
+        }
+    }
 }
