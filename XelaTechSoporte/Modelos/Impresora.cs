@@ -17,8 +17,7 @@ class Impresora : Equipo
         get { return esMultifuncional; }
         set { esMultifuncional = value; }
     }
-
-    public double CalcularCostoRevision()
+    public override double CalcularCostoRevision()
     {
         if (esMultifuncional)
         {
@@ -27,7 +26,7 @@ class Impresora : Equipo
         return 80.00;
     }
 
-    public int ObtenerTiempoEstimado()
+    public override int ObtenerTiempoEstimado()
     {
         if (esMultifuncional)
         {
@@ -36,17 +35,16 @@ class Impresora : Equipo
         return 2;
     }
 
-    public int ObtenerEspecialidadRequerida()
+    public override int ObtenerEspecialidadRequerida()
     {
         return 3;
     }
-
     public override void MostrarInformacion()
     {
         base.MostrarInformacion();
         string multiStr = esMultifuncional ? "Sí" : "No";
-        Console.WriteLine("Tipo: Impresora | Es Multifuncional: " + multiStr +
-                          " | Costo Revisión: Q" + CalcularCostoRevision() +
+        Console.WriteLine("   Tipo: Impresora | Es Multifuncional: " + multiStr +
+                          " | Costo Revisión: Q" + CalcularCostoRevision().ToString("F2") +
                           " | Tiempo: " + ObtenerTiempoEstimado() + "h");
     }
 }

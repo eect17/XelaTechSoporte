@@ -10,16 +10,9 @@ class UsoRepuesto
     public UsoRepuesto(Repuesto repuesto, int cantidadUtilizada)
     {
         if (repuesto == null)
-        {
-            Console.WriteLine("ERROR: El repuesto no puede ser nulo.");
-            return;
-        }
-
+            throw new ArgumentException("El repuesto no puede ser nulo.");
         if (cantidadUtilizada <= 0)
-        {
-            Console.WriteLine("ERROR: La cantidad utilizada debe ser mayor a 0.");
-            return;
-        }
+            throw new ArgumentException("La cantidad utilizada debe ser mayor a 0.");
 
         this.repuesto = repuesto;
         this.cantidadUtilizada = cantidadUtilizada;
@@ -30,17 +23,14 @@ class UsoRepuesto
 
     public double CalcularSubtotal()
     {
-        if (repuesto == null) return 0.0;
         return cantidadUtilizada * repuesto.PrecioVenta;
     }
 
     public void MostrarInformacion()
     {
-        if (repuesto == null) return;
-
         Console.WriteLine("Repuesto: " + repuesto.Nombre +
                           " | Cantidad: " + cantidadUtilizada +
-                          " | Precio Venta: Q" + repuesto.PrecioVenta +
-                          " | Subtotal: Q" + CalcularSubtotal());
+                          " | Precio Venta: Q" + repuesto.PrecioVenta.ToString("F2") +
+                          " | Subtotal: Q" + CalcularSubtotal().ToString("F2"));
     }
-}   
+}

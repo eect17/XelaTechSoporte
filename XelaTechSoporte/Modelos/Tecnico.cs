@@ -13,22 +13,20 @@ class Tecnico
     private int sumaCalificaciones;
     private int cantidadCalificaciones;
     private double calificacionPromedio;
-
-    public int LimiteTrabajoActivos = 3;
+    private const int limiteTrabajoActivos = 3;
 
     public Tecnico(string codigo, string nombreCompleto, int especialidad, int disponibilidad)
     {
-        this.codigo = codigo;
-        this.nombreCompleto = nombreCompleto;
-        this.especialidad = especialidad;
-        this.disponibilidad = disponibilidad;
-        this.trabajoActivos = 0;
-        this.serviciosFinalizados = 0;
-        this.sumaCalificaciones = 0;
-        this.cantidadCalificaciones = 0;
-        this.calificacionPromedio = 0.0;
+        Codigo = codigo;
+        NombreCompleto = nombreCompleto;
+        Especialidad = especialidad;
+        Disponibilidad = disponibilidad;
+        trabajoActivos = 0;
+        serviciosFinalizados = 0;
+        sumaCalificaciones = 0;
+        cantidadCalificaciones = 0;
+        calificacionPromedio = 0.0;
     }
-
     public Tecnico(string codigo, string nombreCompleto, int especialidad)
         : this(codigo, nombreCompleto, especialidad, 1)
     {
@@ -39,14 +37,9 @@ class Tecnico
         get { return codigo; }
         set
         {
-            if (value != null && value.Trim() != "")
-            {
-                codigo = value.Trim();
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El código no puede estar vacío.");
-            }
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El código del técnico no puede estar vacío.");
+            codigo = value.Trim();
         }
     }
 
@@ -55,14 +48,9 @@ class Tecnico
         get { return nombreCompleto; }
         set
         {
-            if (value != null && value.Trim() != "")
-            {
-                nombreCompleto = value.Trim();
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El nombre completo no puede estar vacío.");
-            }
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El nombre completo no puede estar vacío.");
+            nombreCompleto = value.Trim();
         }
     }
 
@@ -71,88 +59,89 @@ class Tecnico
         get { return especialidad; }
         set
         {
-            if (value >= 1 && value <= 3)
-            {
-                especialidad = value;
-            }
-            else
-            {
-                Console.WriteLine("ERROR: La especialidad debe ser 1, 2 o 3.");
-            }
+            if (value < 1 || value > 3)
+                throw new ArgumentException("La especialidad debe ser 1, 2 o 3.");
+            especialidad = value;
         }
     }
-
     public int Disponibilidad
     {
         get { return disponibilidad; }
         set
         {
-            if (value >= 1 && value <= 3)
-            {
-                disponibilidad = value;
-            }
-            else
-            {
-                Console.WriteLine("ERROR: Disponibilidad invalida.");
-            }
+            if (value < 1 || value > 3)
+                throw new ArgumentException("La disponibilidad debe ser 1, 2 o 3.");
+            disponibilidad = value;
         }
     }
 
     public int TrabajoActivos { get { return trabajoActivos; } }
     public int ServiciosFinalizados { get { return serviciosFinalizados; } }
     public double CalificacionPromedio { get { return calificacionPromedio; } }
-
+    public int LimiteTrabajoActivos { get { return limiteTrabajoActivos; } }
     public bool PuedeRecibir(int especialidadRequerida)
     {
         if (especialidad != especialidadRequerida) return false;
-        if (disponibilidad == 3) return false;
-        if (trabajoActivos >= LimiteTrabajoActivos) return false;
+        if (disponibilidad != 1) return false;
+        if (trabajoActivos >= limiteTrabajoActivos) return false;
 
         return true;
     }
-
     public void AsignarTrabajo()
     {
         trabajoActivos++;
-        if (trabajoActivos >= LimiteTrabajoActivos)
+        if (trabajoActivos >= limiteTrabajoActivos)
         {
             disponibilidad = 2;
         }
     }
-
-    public void FinalizarTrabajo()
+    public void LiberarTrabajo()
     {
         if (trabajoActivos > 0)
         {
             trabajoActivos--;
         }
-        serviciosFinalizados++;
-        if (disponibilidad == 2 && trabajoActivos < LimiteTrabajoActivos)
+        if (disponibilidad == 2 && trabajoActivos < limiteTrabajoActivos)
         {
             disponibilidad = 1;
         }
+    }
+    public void FinalizarTrabajo()
+    {
+        LiberarTrabajo();
+        serviciosFinalizados++;
     }
 
     public void RegistrarCalificacion(int calificacion)
     {
         if (calificacion < 1 || calificacion > 5)
-        {
-            Console.WriteLine("ERROR: La calificación debe estar entre 1 y 5.");
-            return;
-        }
+            throw new ArgumentException("La calificación debe estar entre 1 y 5.");
         sumaCalificaciones += calificacion;
         cantidadCalificaciones++;
         calificacionPromedio = (double)sumaCalificaciones / cantidadCalificaciones;
+    }
+
+    public string NombreEspecialidad()
+    {
+        if (especialidad == 1) return "Portátil";
+        if (especialidad == 2) return "Escritorio";
+        return "Impresora";
+    }
+    public string NombreDisponibilidad()
+    {
+        if (disponibilidad == 1) return "Disponible";
+        if (disponibilidad == 2) return "Con carga completa";
+        return "Fuera de servicio";
     }
 
     public void MostrarInformacion()
     {
         Console.WriteLine("Código: " + codigo
             + " | Nombre: " + nombreCompleto
-            + " | Especialidad: " + especialidad
-            + " | Estado: " + disponibilidad
-            + " | Trabajos Activos: " + trabajoActivos
+            + " | Especialidad: " + NombreEspecialidad()
+            + " | Estado: " + NombreDisponibilidad()
+            + " | Trabajos Activos: " + trabajoActivos + "/" + limiteTrabajoActivos
             + " | Finalizados: " + serviciosFinalizados
-            + " | Promedio: " + calificacionPromedio);
+            + " | Promedio: " + calificacionPromedio.ToString("F1"));
     }
 }

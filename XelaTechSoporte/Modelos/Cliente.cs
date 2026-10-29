@@ -11,10 +11,10 @@ class Cliente
     private string tipoCliente;
     private int cantidadSolicitudes;
 
-    
+
     public Cliente(string codigo, string nombreCompleto, string telefono, string correo, string tipoCliente)
     {
-        Codigo = codigo;                 
+        Codigo = codigo;
         NombreCompleto = nombreCompleto;
         Telefono = telefono;
         Correo = correo;
@@ -28,7 +28,7 @@ class Cliente
     {
     }
 
-    
+
     public string Codigo
     {
         get { return codigo; }
@@ -40,7 +40,7 @@ class Cliente
         }
     }
 
-    
+
     public string NombreCompleto
     {
         get { return nombreCompleto; }
@@ -52,7 +52,7 @@ class Cliente
         }
     }
 
-    
+
     public string TipoCliente
     {
         get { return tipoCliente; }
@@ -64,7 +64,7 @@ class Cliente
         }
     }
 
-    
+
     public string Telefono
     {
         get { return telefono; }
@@ -88,13 +88,11 @@ class Cliente
         }
     }
 
-    // Propiedad CantidadSolicitudes (Solo lectura)
     public int CantidadSolicitudes
     {
         get { return cantidadSolicitudes; }
     }
 
-    // Actualiza el teléfono, correo y tipo de cliente aplicando validaciones
     public void ActualizarDatos(string telefono, string correo, string tipoCliente)
     {
         Telefono = telefono;
@@ -102,13 +100,11 @@ class Cliente
         TipoCliente = tipoCliente;
     }
 
-    // Incrementa en 1 el contador de solicitudes del cliente
     public void IncrementarSolicitudes()
     {
         cantidadSolicitudes++;
     }
 
-    // Muestra la información general del cliente en consola
     public void MostrarInformacion()
     {
         Console.WriteLine("Código: " + codigo +

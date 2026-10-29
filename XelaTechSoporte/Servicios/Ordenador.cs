@@ -1,48 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace XelaTechSoporte;
 
 class Ordenador
 {
-    public void OrdenarRepuestosPorPrecio(List<Repuesto> repuestos)
+    public void OrdenarSolicitudesPorCostoTotal(List<Solicitud> lista)
     {
-        if (repuestos == null || repuestos.Count <= 1) return;
-
-        for (int i = 0; i < repuestos.Count - 1; i++)
-        {
-            for (int j = 0; j < repuestos.Count - 1 - i; j++)
-            {
-                if (repuestos[j].PrecioVenta > repuestos[j + 1].PrecioVenta)
+        for (int i = 0; i < lista.Count - 1; i++)
+            for (int j = 0; j < lista.Count - i - 1; j++)
+                if (lista[j].CalcularTotal() > lista[j + 1].CalcularTotal())
                 {
-                    Repuesto temp = repuestos[j];
-                    repuestos[j] = repuestos[j + 1];
-                    repuestos[j + 1] = temp;
+                    Solicitud temp = lista[j]; lista[j] = lista[j + 1]; lista[j + 1] = temp;
                 }
-            }
+    }
+    public void OrdenarTecnicosPorServicios(List<Tecnico> lista)
+    {
+        for (int i = 0; i < lista.Count - 1; i++)
+        {
+            int mayor = i;
+            for (int j = i + 1; j < lista.Count; j++)
+                if (lista[j].ServiciosFinalizados > lista[mayor].ServiciosFinalizados) mayor = j;
+            if (mayor != i) { Tecnico temp = lista[i]; lista[i] = lista[mayor]; lista[mayor] = temp; }
         }
     }
-
-    public void OrdenarTecnicosPorServicios(List<Tecnico> tecnicos)
+    public void OrdenarRepuestosPorExistencia(List<Repuesto> lista)
     {
-        if (tecnicos == null || tecnicos.Count <= 1) return;
-
-        for (int i = 0; i < tecnicos.Count - 1; i++)
-        {
-            int maxIdx = i;
-            for (int j = i + 1; j < tecnicos.Count; j++)
-            {
-                if (tecnicos[j].ServiciosFinalizados > tecnicos[maxIdx].ServiciosFinalizados)
-                {
-                    maxIdx = j;
-                }
-            }
-            if (maxIdx != i)
-            {
-                Tecnico temp = tecnicos[i];
-                tecnicos[i] = tecnicos[maxIdx];
-                tecnicos[maxIdx] = temp;
-            }
-        }
+        for (int i = 0; i < lista.Count - 1; i++)
+            for (int j = 0; j < lista.Count - i - 1; j++)
+                if (lista[j].Existencia > lista[j + 1].Existencia)
+                { Repuesto temp = lista[j]; lista[j] = lista[j + 1]; lista[j + 1] = temp; }
     }
 }

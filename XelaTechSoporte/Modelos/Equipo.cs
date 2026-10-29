@@ -2,25 +2,25 @@
 
 namespace XelaTechSoporte;
 
-class Equipo
+abstract class Equipo
 {
-    private string codigoInterno;
-    private string numeroSerie;
-    private string marca;
-    private string modelo;
-    private Cliente propietario;
-    private int tipoEquipo;
-    private string estadoFisico;
-    private string accesorios;
+    protected string codigoInterno;
+    protected string numeroSerie;
+    protected string marca;
+    protected string modelo;
+    protected Cliente propietario;
+    protected int tipoEquipo;
+    protected string estadoFisico;
+    protected string accesorios;
 
-    public Equipo(string codigoInterno, string numeroSerie, string marca, string modelo, Cliente propietario, int tipoEquipo, string estadoFisico, string accesorios)
+    protected Equipo(string codigoInterno, string numeroSerie, string marca, string modelo, Cliente propietario, int tipoEquipo, string estadoFisico, string accesorios)
     {
         CodigoInterno = codigoInterno;
         NumeroSerie = numeroSerie;
         Marca = marca;
         Modelo = modelo;
-        this.propietario = propietario;
-        this.tipoEquipo = tipoEquipo;
+        Propietario = propietario;
+        TipoEquipo = tipoEquipo;
         EstadoFisico = estadoFisico;
         Accesorios = accesorios;
     }
@@ -30,10 +30,9 @@ class Equipo
         get { return codigoInterno; }
         set
         {
-            if (value != null && value.Trim() != "")
-                codigoInterno = value.Trim();
-            else
-                Console.WriteLine("ERROR: El código interno no puede estar vacío.");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El código interno no puede estar vacío.");
+            codigoInterno = value.Trim();
         }
     }
 
@@ -42,10 +41,9 @@ class Equipo
         get { return numeroSerie; }
         set
         {
-            if (value != null && value.Trim() != "")
-                numeroSerie = value.Trim();
-            else
-                Console.WriteLine("ERROR: El número de serie no puede estar vacío.");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El número de serie no puede estar vacío.");
+            numeroSerie = value.Trim();
         }
     }
 
@@ -54,10 +52,9 @@ class Equipo
         get { return marca; }
         set
         {
-            if (value != null && value.Trim() != "")
-                marca = value.Trim();
-            else
-                Console.WriteLine("ERROR: La marca no puede estar vacía.");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("La marca no puede estar vacía.");
+            marca = value.Trim();
         }
     }
 
@@ -66,23 +63,32 @@ class Equipo
         get { return modelo; }
         set
         {
-            if (value != null && value.Trim() != "")
-                modelo = value.Trim();
-            else
-                Console.WriteLine("ERROR: El modelo no puede estar vacío.");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El modelo no puede estar vacío.");
+            modelo = value.Trim();
         }
     }
 
     public Cliente Propietario
     {
         get { return propietario; }
-        set { propietario = value; }
+        set
+        {
+            if (value == null)
+                throw new ArgumentException("El equipo necesita un propietario.");
+            propietario = value;
+        }
     }
 
     public int TipoEquipo
     {
         get { return tipoEquipo; }
-        set { tipoEquipo = value; }
+        set
+        {
+            if (value < 1 || value > 3)
+                throw new ArgumentException("El tipo de equipo debe ser 1, 2 o 3.");
+            tipoEquipo = value;
+        }
     }
 
     public string EstadoFisico
@@ -90,10 +96,9 @@ class Equipo
         get { return estadoFisico; }
         set
         {
-            if (value != null && value.Trim() != "")
-                estadoFisico = value.Trim();
-            else
-                Console.WriteLine("ERROR: El estado físico no puede estar vacío.");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El estado físico no puede estar vacío.");
+            estadoFisico = value.Trim();
         }
     }
 
@@ -103,24 +108,20 @@ class Equipo
         set { accesorios = value != null ? value.Trim() : ""; }
     }
 
-    public virtual double CalcularCostoRevision()
-    {
-        return 100.0;
-    }
+    public abstract double CalcularCostoRevision();
 
-    public virtual int ObtenerTiempoEstimado()
-    {
-        return 2;
-    }
+    public abstract int ObtenerTiempoEstimado();
+
+    public abstract int ObtenerEspecialidadRequerida();
 
     public virtual void MostrarInformacion()
     {
-        string nombrePropietario = propietario != null ? propietario.NombreCompleto : "Sin propietario";
         Console.WriteLine("Código: " + codigoInterno +
                           " | Serie: " + numeroSerie +
                           " | Marca: " + marca +
                           " | Modelo: " + modelo +
-                          " | Propietario: " + nombrePropietario +
-                          " | Estado: " + estadoFisico);
+                          " | Propietario: " + propietario.NombreCompleto +
+                          " | Estado: " + estadoFisico +
+                          " | Accesorios: " + accesorios);
     }
 }

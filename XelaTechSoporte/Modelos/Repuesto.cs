@@ -11,6 +11,7 @@ class Repuesto
     private int existenciaMinima;
     private double costoUnitario;
     private double precioVenta;
+    private int cantidadUtilizada;
 
     public Repuesto(string codigo, string nombre, string categoria, int existencia, int existenciaMinima, double costoUnitario, double precioVenta)
     {
@@ -21,6 +22,7 @@ class Repuesto
         Existencia = existencia;
         CostoUnitario = costoUnitario;
         PrecioVenta = precioVenta;
+        cantidadUtilizada = 0;
     }
 
     public string Codigo
@@ -28,14 +30,9 @@ class Repuesto
         get { return codigo; }
         set
         {
-            if (value != null && value.Trim() != "")
-            {
-                codigo = value.Trim();
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El código del repuesto no puede estar vacío.");
-            }
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El código del repuesto no puede estar vacío.");
+            codigo = value.Trim();
         }
     }
 
@@ -44,14 +41,9 @@ class Repuesto
         get { return nombre; }
         set
         {
-            if (value != null && value.Trim() != "")
-            {
-                nombre = value.Trim();
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El nombre del repuesto no puede estar vacío.");
-            }
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("El nombre del repuesto no puede estar vacío.");
+            nombre = value.Trim();
         }
     }
 
@@ -60,14 +52,9 @@ class Repuesto
         get { return categoria; }
         set
         {
-            if (value != null && value.Trim() != "")
-            {
-                categoria = value.Trim();
-            }
-            else
-            {
-                Console.WriteLine("ERROR: La categoría no puede estar vacía.");
-            }
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("La categoría no puede estar vacía.");
+            categoria = value.Trim();
         }
     }
 
@@ -76,14 +63,9 @@ class Repuesto
         get { return existencia; }
         set
         {
-            if (value >= 0)
-            {
-                existencia = value;
-            }
-            else
-            {
-                Console.WriteLine("ERROR: La existencia no puede ser negativa.");
-            }
+            if (value < 0)
+                throw new ArgumentException("La existencia no puede ser negativa.");
+            existencia = value;
         }
     }
 
@@ -92,14 +74,9 @@ class Repuesto
         get { return existenciaMinima; }
         set
         {
-            if (value >= 0)
-            {
-                existenciaMinima = value;
-            }
-            else
-            {
-                Console.WriteLine("ERROR: La existencia mínima no puede ser negativa.");
-            }
+            if (value < 0)
+                throw new ArgumentException("La existencia mínima no puede ser negativa.");
+            existenciaMinima = value;
         }
     }
 
@@ -108,14 +85,9 @@ class Repuesto
         get { return costoUnitario; }
         set
         {
-            if (value >= 0)
-            {
-                costoUnitario = value;
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El costo unitario no puede ser negativo.");
-            }
+            if (value < 0)
+                throw new ArgumentException("El costo unitario no puede ser negativo.");
+            costoUnitario = value;
         }
     }
 
@@ -125,19 +97,14 @@ class Repuesto
         set
         {
             if (value < 0)
-            {
-                Console.WriteLine("ERROR: El precio de venta no puede ser negativo.");
-            }
-            else if (value < costoUnitario)
-            {
-                Console.WriteLine("ERROR: El precio de venta no puede ser menor al costo unitario.");
-            }
-            else
-            {
-                precioVenta = value;
-            }
+                throw new ArgumentException("El precio de venta no puede ser negativo.");
+            if (value < costoUnitario)
+                throw new ArgumentException("El precio de venta no puede ser menor al costo unitario.");
+            precioVenta = value;
         }
     }
+
+    public int CantidadUtilizada { get { return cantidadUtilizada; } }
 
     public bool HayExistencia(int cantidad)
     {
@@ -147,20 +114,15 @@ class Repuesto
     public void Descontar(int cantidad)
     {
         if (!HayExistencia(cantidad))
-        {
-            Console.WriteLine("ERROR: No hay suficiente existencia en inventario.");
-            return;
-        }
+            throw new ArgumentException("No hay suficiente existencia en inventario.");
         existencia -= cantidad;
+        cantidadUtilizada += cantidad;
     }
 
     public void Reponer(int cantidad)
     {
         if (cantidad <= 0)
-        {
-            Console.WriteLine("ERROR: La cantidad a reponer debe ser mayor a 0.");
-            return;
-        }
+            throw new ArgumentException("La cantidad a reponer debe ser mayor a 0.");
         existencia += cantidad;
     }
 
@@ -173,7 +135,6 @@ class Repuesto
     {
         return existencia == 0;
     }
-
     public void MostrarInformacion()
     {
         Console.WriteLine("Código: " + codigo +
@@ -181,7 +142,8 @@ class Repuesto
                           " | Categoría: " + categoria +
                           " | Stock: " + existencia +
                           " | Mínimo: " + existenciaMinima +
-                          " | Costo: Q" + costoUnitario +
-                          " | Precio: Q" + precioVenta);
+                          " | Costo: Q" + costoUnitario.ToString("F2") +
+                          " | Precio: Q" + precioVenta.ToString("F2") +
+                          " | Cantidad utilizada: " + cantidadUtilizada);
     }
 }

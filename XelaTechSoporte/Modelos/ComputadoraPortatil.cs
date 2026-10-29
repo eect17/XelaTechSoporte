@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace XelaTechSoporte;
 
@@ -19,7 +18,7 @@ class ComputadoraPortatil : Equipo
         set { tieneCargador = value; }
     }
 
-    public double CalcularCostoRevision()
+    public override double CalcularCostoRevision()
     {
         double costo = 150.00;
         if (!tieneCargador)
@@ -29,13 +28,12 @@ class ComputadoraPortatil : Equipo
         return costo;
     }
 
-    public int ObtenerTiempoEstimado()
+    public override int ObtenerTiempoEstimado()
     {
         return 4;
     }
 
-
-    public int ObtenerEspecialidadRequerida()
+    public override int ObtenerEspecialidadRequerida()
     {
         return 1;
     }
@@ -44,8 +42,8 @@ class ComputadoraPortatil : Equipo
     {
         base.MostrarInformacion();
         string cargadorStr = tieneCargador ? "Sí" : "No";
-        Console.WriteLine("Tipo: Computadora Portátil | Trae Cargador: " + cargadorStr +
-                          " | Costo Revisión: Q" + CalcularCostoRevision() +
+        Console.WriteLine("   Tipo: Computadora Portátil | Trae Cargador: " + cargadorStr +
+                          " | Costo Revisión: Q" + CalcularCostoRevision().ToString("F2") +
                           " | Tiempo: " + ObtenerTiempoEstimado() + "h");
     }
 }

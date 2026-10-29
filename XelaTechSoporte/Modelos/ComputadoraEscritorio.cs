@@ -17,9 +17,7 @@ class ComputadoraEscritorio : Equipo
         get { return tieneMonitor; }
         set { tieneMonitor = value; }
     }
-
-    
-    public double CalcularCostoRevision()
+    public override double CalcularCostoRevision()
     {
         double costo = 120.00;
         if (!tieneMonitor)
@@ -28,24 +26,20 @@ class ComputadoraEscritorio : Equipo
         }
         return costo;
     }
-
-    public int ObtenerTiempoEstimado()
+    public override int ObtenerTiempoEstimado()
     {
         return 3;
     }
-
-    
-    public int ObtenerEspecialidadRequerida()
+    public override int ObtenerEspecialidadRequerida()
     {
         return 2;
     }
-
     public override void MostrarInformacion()
     {
         base.MostrarInformacion();
         string monitorStr = tieneMonitor ? "Sí" : "No";
-        Console.WriteLine("Tipo: Computadora Escritorio | Trae Monitor: " + monitorStr +
-                          " | Costo Revisión: Q" + CalcularCostoRevision() +
+        Console.WriteLine("   Tipo: Computadora Escritorio | Trae Monitor: " + monitorStr +
+                          " | Costo Revisión: Q" + CalcularCostoRevision().ToString("F2") +
                           " | Tiempo: " + ObtenerTiempoEstimado() + "h");
     }
 }
