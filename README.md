@@ -31,6 +31,20 @@ El proyecto aplica conceptos de programación orientada a objetos, estructuras d
 - 📊 **Reportes:** consulta de información para el seguimiento del servicio.
 - 💾 **Persistencia TXT:** almacenamiento de datos mediante un archivo de texto.
 
+## 📥 Descargar el ejecutable
+
+La versión final de **XelaTech Soporte** está disponible para Windows de 64 bits. Puedes descargar el programa listo para ejecutar desde el siguiente lanzamiento:
+
+**[Descargar XelaTech Soporte v1.0.0](https://github.com/eect17/XelaTechSoporte/releases/tag/v1.0.0)**
+
+**Instrucciones:**
+1. Abre el enlace del lanzamiento y descarga el archivo `win-x64.zip).
+2. Extrae todo el contenido del archivo ZIP.
+3. Abre la carpeta extraída.
+4. Ejecuta `XelaTechSoporte.exe`.
+
+> **Nota:** extrae el ZIP antes de ejecutar el programa y conserva juntos los archivos que contiene.
+
 ## 🧰 Tecnologías
 
 | Tecnología | Uso |
@@ -41,7 +55,7 @@ El proyecto aplica conceptos de programación orientada a objetos, estructuras d
 | Git y GitHub | Control de versiones |
 | Archivo TXT | Persistencia de información |
 
-## 🚀 Cómo ejecutar el proyecto
+## 🚀 Cómo ejecutar el proyecto desde el código fuente
 
 1. Descarga o clona este repositorio.
 2. Abre `XelaTechSoporte.slnx` en Visual Studio.
@@ -59,6 +73,10 @@ El proyecto está organizado por responsabilidades:
 - `Interfaz`: menús y validación de entradas.
 - `Modelos`: clases que representan clientes, técnicos, equipos, solicitudes y repuestos.
 - `Servicios`: operaciones de gestión, búsquedas, ordenamientos, reportes y almacenamiento.
+
+## 📚 Documentación
+
+La documentación y la guía de uso del proyecto se encuentran en la carpeta [Documentación](https://github.com/eect17/XelaTechSoporte/tree/main/Documentación).
 
 ## 🎓 Propósito académico
 
